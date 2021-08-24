@@ -21,7 +21,10 @@ CPaintDlg::CPaintDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_PAINT_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	rect.SetRect(40, 200, 800, 500);
+	//TODO: Use the actual size of the board
+	brushColor = RGB(0, 0, 0);
+	fillColor = RGB(255, 255, 255);
+	rect.SetRect(30, 150, 680, 410);
 
 }
 
@@ -44,8 +47,6 @@ BEGIN_MESSAGE_MAP(CPaintDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CPaintDlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, &CPaintDlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, &CPaintDlg::OnBnClickedButton3)
-	ON_WM_CTLCOLOR()
-	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_BUTTON4, &CPaintDlg::OnBnClickedButton4)
 	ON_BN_CLICKED(IDC_BUTTON5, &CPaintDlg::OnBnClickedButton5)
 END_MESSAGE_MAP()
@@ -65,7 +66,6 @@ BOOL CPaintDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	CheckRadioButton(IDC_RADIO1, IDC_RADIO5, IDC_RADIO1);
 
-	m_brush.CreateSolidBrush(RGB(255, 255, 255));
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -96,7 +96,21 @@ void CPaintDlg::OnPaint()
 	{
 		CPaintDC dc(this); // device context for painting
 		for (int i = 0; i < figs.GetSize(); i++)
+		{
+			//Handle CPen and CBrush outside
+			CPen pen;
+			CPen* oldPen;
+			pen.CreatePen(figs[i]->getPenStyle(), 1, figs[i]->getBrushColor());
+			oldPen = dc.SelectObject(&pen);
+			CBrush brush(figs[i]->getFillColor());
+			CBrush* oldBrush;
+			oldBrush = dc.SelectObject(&brush);
+			
 			figs[i]->Draw(&dc);
+			
+			dc.SelectObject(oldPen);
+			dc.SelectObject(oldBrush);
+		}
 		CDialogEx::OnPaint();
 	}
 }
@@ -155,6 +169,8 @@ void CPaintDlg::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		end = point;
 		figs[figs.GetSize() - 1]->Redefine(start, end);
+		figs[figs.GetSize() - 1]->setBrushColor(brushColor);
+		figs[figs.GetSize() - 1]->setFillColor(fillColor);
 		InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
 	}
 	CDialogEx::OnMouseMove(nFlags, point);
@@ -219,19 +235,12 @@ void CPaintDlg::OnBnClickedButton3()
 }
 
 
-HBRUSH CPaintDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
-{
-	HBRUSH hbr = m_brush;
-	return hbr;
-}
-
-
 void CPaintDlg::OnBnClickedButton4()
 {
 	CColorDialog dlg;
 	if (dlg.DoModal() == IDOK)
 	{
-		COLORREF color = dlg.GetColor();
+		brushColor = dlg.GetColor();
 	}
 }
 
@@ -241,7 +250,7 @@ void CPaintDlg::OnBnClickedButton5()
 	CColorDialog dlg;
 	if (dlg.DoModal() == IDOK)
 	{
-		COLORREF color = dlg.GetColor();
+		fillColor = dlg.GetColor();
 	}
 }
 

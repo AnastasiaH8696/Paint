@@ -26,11 +26,13 @@ public:
 	bool isPressed = false;
 	CTypedPtrArray< CObArray, Figure*> figs;
 	int futureFigureKind = 1; 
+	CRect rect;
+	COLORREF brushColor;
+	COLORREF fillColor;
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	CRect rect;
-	CBrush m_brush;	
+	
 
 // Implementation
 protected:
@@ -53,7 +55,6 @@ public:
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButton2();
 	afx_msg void OnBnClickedButton3();
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnBnClickedButton4();
 	afx_msg void OnBnClickedButton5();
 };

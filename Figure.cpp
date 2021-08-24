@@ -3,6 +3,23 @@
 
 IMPLEMENT_SERIAL(Figure, CObject, 1)
 
+Figure::Figure()
+{
+	penSize = 1;
+	penStyle = PS_SOLID;
+	brushColor = RGB(0, 0, 0);
+	fillColor = RGB(255, 255, 255);
+}
+
+Figure::Figure(CPoint p1, CPoint p2) :
+	P1(p1), P2(p2)
+{
+	penSize = 1;
+	penStyle = PS_SOLID;
+	brushColor = RGB(0, 0, 0);
+	fillColor = RGB(255, 255, 255);
+}
+
 void Figure::Serialize(CArchive& ar)
 {
 	CObject::Serialize(ar);
@@ -17,6 +34,7 @@ void Figure::Serialize(CArchive& ar)
 		ar >> P2;
 	}
 }
+
 
 bool Figure::isInside(const CPoint& P) const
 {
