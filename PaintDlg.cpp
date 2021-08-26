@@ -24,8 +24,8 @@ CPaintDlg::CPaintDlg(CWnd* pParent /*=nullptr*/)
 	//TODO: Use the actual size of the board
 	brushColor = RGB(0, 0, 0);
 	fillColor = RGB(255, 255, 255);
+	penStyle = PS_SOLID;
 	rect.SetRect(30, 150, 680, 410);
-
 }
 
 void CPaintDlg::DoDataExchange(CDataExchange* pDX)
@@ -49,6 +49,17 @@ BEGIN_MESSAGE_MAP(CPaintDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON3, &CPaintDlg::OnBnClickedButton3)
 	ON_BN_CLICKED(IDC_BUTTON4, &CPaintDlg::OnBnClickedButton4)
 	ON_BN_CLICKED(IDC_BUTTON5, &CPaintDlg::OnBnClickedButton5)
+	ON_BN_CLICKED(IDC_CHECK1, &CPaintDlg::OnBnClickedCheck1)
+	ON_BN_CLICKED(IDC_CHECK2, &CPaintDlg::OnBnClickedCheck2)
+	ON_BN_CLICKED(IDC_CHECK3, &CPaintDlg::OnBnClickedCheck3)
+	ON_BN_CLICKED(IDC_CHECK4, &CPaintDlg::OnBnClickedCheck4)
+	ON_BN_CLICKED(IDC_CHECK5, &CPaintDlg::OnBnClickedCheck5)
+	ON_BN_CLICKED(IDC_CHECK6, &CPaintDlg::OnBnClickedCheck6)
+	ON_BN_CLICKED(IDC_CHECK7, &CPaintDlg::OnBnClickedCheck7)
+	ON_WM_LBUTTONDBLCLK()
+	ON_WM_RBUTTONUP()
+	ON_WM_RBUTTONDOWN()
+	ON_WM_RBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 
@@ -65,7 +76,15 @@ BOOL CPaintDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	CheckRadioButton(IDC_RADIO1, IDC_RADIO5, IDC_RADIO1);
-
+	m_solidCheckBox = (CButton*)GetDlgItem(IDC_CHECK1);
+	m_dashCheckBox = (CButton*)GetDlgItem(IDC_CHECK2);
+	m_dotsCheckBox = (CButton*)GetDlgItem(IDC_CHECK3);
+	m_dashDotsCheckBox = (CButton*)GetDlgItem(IDC_CHECK4);
+	m_smallCheckBox = (CButton*)GetDlgItem(IDC_CHECK5);
+	m_mediumCheckBox = (CButton*)GetDlgItem(IDC_CHECK6);
+	m_bigCheckBox = (CButton*)GetDlgItem(IDC_CHECK7);
+	m_solidCheckBox->SetCheck(BST_CHECKED);
+	m_smallCheckBox->SetCheck(BST_CHECKED);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -100,7 +119,7 @@ void CPaintDlg::OnPaint()
 			//Handle CPen and CBrush outside
 			CPen pen;
 			CPen* oldPen;
-			pen.CreatePen(figs[i]->getPenStyle(), 1, figs[i]->getBrushColor());
+			pen.CreatePen(figs[i]->getPenStyle(), figs[i]->getPenSize(), figs[i]->getBrushColor());
 			oldPen = dc.SelectObject(&pen);
 			CBrush brush(figs[i]->getFillColor());
 			CBrush* oldBrush;
@@ -171,6 +190,8 @@ void CPaintDlg::OnMouseMove(UINT nFlags, CPoint point)
 		figs[figs.GetSize() - 1]->Redefine(start, end);
 		figs[figs.GetSize() - 1]->setBrushColor(brushColor);
 		figs[figs.GetSize() - 1]->setFillColor(fillColor);
+		figs[figs.GetSize() - 1]->setPenStyle(penStyle);
+		figs[figs.GetSize() - 1]->setPenSize(penSize);
 		InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
 	}
 	CDialogEx::OnMouseMove(nFlags, point);
@@ -254,3 +275,172 @@ void CPaintDlg::OnBnClickedButton5()
 	}
 }
 
+
+
+void CPaintDlg::OnBnClickedCheck1()
+{
+	int ChkBox = m_solidCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_SOLID;
+		m_solidCheckBox->SetCheck(BST_CHECKED);
+		m_dashCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+
+void CPaintDlg::OnBnClickedCheck2()
+{
+	int ChkBox = m_dashCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_DASH;
+		m_dashCheckBox->SetCheck(BST_CHECKED);
+		m_solidCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+
+void CPaintDlg::OnBnClickedCheck3()
+{
+	int ChkBox = m_dotsCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_DOT;
+		m_dashCheckBox->SetCheck(BST_UNCHECKED);
+		m_solidCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_CHECKED);
+	}
+}
+
+
+void CPaintDlg::OnBnClickedCheck4()
+{
+	int ChkBox = m_dashDotsCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_DASHDOT;
+		m_dashCheckBox->SetCheck(BST_UNCHECKED);
+		m_solidCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_CHECKED);
+	}
+}
+
+
+void CPaintDlg::OnBnClickedCheck5()
+{
+	int ChkBox = m_smallCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penSize = 1;
+		m_bigCheckBox->SetCheck(BST_UNCHECKED);
+		m_mediumCheckBox->SetCheck(BST_UNCHECKED);
+		m_smallCheckBox->SetCheck(BST_CHECKED);
+	}
+}
+
+
+void CPaintDlg::OnBnClickedCheck6()
+{
+	int ChkBox = m_mediumCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penSize = 3;
+		m_bigCheckBox->SetCheck(BST_UNCHECKED);
+		m_mediumCheckBox->SetCheck(BST_CHECKED);
+		m_smallCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+
+void CPaintDlg::OnBnClickedCheck7()
+{
+	int ChkBox = m_bigCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penSize = 5;
+		m_bigCheckBox->SetCheck(BST_CHECKED);
+		m_mediumCheckBox->SetCheck(BST_UNCHECKED);
+		m_smallCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+void CPaintDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	int indexToDel = -1;
+	for(int i = 0; i< figs.GetSize() -1; i++)
+	{
+		if (figs[i]->isInside(point) == true)
+		{
+			indexToDel = i;
+		}
+	}
+
+	if (indexToDel != -1)
+	{
+		delete figs.GetAt(indexToDel);
+		figs.RemoveAt(indexToDel);
+		InvalidateRect(rect);
+	}
+
+	CDialogEx::OnLButtonDblClk(nFlags, point);
+}
+
+
+void CPaintDlg::OnRButtonUp(UINT nFlags, CPoint point)
+{
+	if (isDragged)
+	{
+		isDragged = false;
+	}
+
+	CDialogEx::OnRButtonUp(nFlags, point);
+}
+
+
+void CPaintDlg::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	isDragged = true;
+
+	CDialogEx::OnRButtonDown(nFlags, point);
+}
+
+
+
+void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
+{
+	CPaintDC dc(this); // device context for painting
+	int indexToFill = -1;
+	for (int i = 0; i< figs.GetSize(); i++)
+	{
+		if (figs.GetAt(i)->isInside(point) == true)
+		{
+			indexToFill = i;
+		}
+	}
+
+	if (indexToFill != -1)
+	{
+		
+		CBrush brush(fillColor);
+		CBrush* oldBrush;
+		oldBrush = dc.SelectObject(&brush);
+		figs.GetAt(indexToFill)->setFillColor(fillColor);
+		InvalidateRect(rect);
+	}
+
+	CDialogEx::OnRButtonDblClk(nFlags, point);
+}
