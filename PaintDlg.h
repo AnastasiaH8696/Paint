@@ -24,11 +24,14 @@ public:
 
 	CPoint start, end;
 	bool isPressed = false;
+	bool isDragged = false;
 	CTypedPtrArray< CObArray, Figure*> figs;
 	int futureFigureKind = 1; 
 	CRect rect;
 	COLORREF brushColor;
 	COLORREF fillColor;
+	int penStyle, penSize;
+	CButton* m_solidCheckBox, *m_dashCheckBox, *m_dotsCheckBox, *m_dashDotsCheckBox, *m_smallCheckBox, *m_mediumCheckBox, *m_bigCheckBox;
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
@@ -57,4 +60,15 @@ public:
 	afx_msg void OnBnClickedButton3();
 	afx_msg void OnBnClickedButton4();
 	afx_msg void OnBnClickedButton5();
+	afx_msg void OnBnClickedCheck1();
+	afx_msg void OnBnClickedCheck2();
+	afx_msg void OnBnClickedCheck3();
+	afx_msg void OnBnClickedCheck4();
+	afx_msg void OnBnClickedCheck5();
+	afx_msg void OnBnClickedCheck6();
+	afx_msg void OnBnClickedCheck7();
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonDblClk(UINT nFlags, CPoint point);
 };

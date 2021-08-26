@@ -21,6 +21,8 @@ public:
 	int getPenSize() const { return penSize; }
 	void setBrushColor(COLORREF bc) { brushColor = bc; }
 	void setFillColor(COLORREF fc) { fillColor = fc; }
+	void setPenStyle(int pS) { penStyle = pS; }
+	void setPenSize(int pS) { penSize = pS; }
 	virtual void Redefine(CPoint p1, CPoint p2) { P1 = p1; P2 = p2; }
 	virtual bool isInside(const CPoint& P) const;
 	virtual void Shift(int dx, int dy);
