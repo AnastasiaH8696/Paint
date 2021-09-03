@@ -22,9 +22,12 @@ public:
 	enum { IDD = IDD_PAINT_DIALOG };
 #endif
 
+	enum MODE{PAINT, DRAG};
 	CPoint start, end;
 	bool isPressed = false;
 	bool isDragged = false;
+	int dragIndex;
+	CPoint startDrag, endDrag;
 	CTypedPtrArray< CObArray, Figure*> figs;
 	int futureFigureKind = 1; 
 	CRect rect;
@@ -71,4 +74,5 @@ public:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnBnClickedButton7();
 };

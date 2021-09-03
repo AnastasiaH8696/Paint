@@ -25,7 +25,9 @@ CPaintDlg::CPaintDlg(CWnd* pParent /*=nullptr*/)
 	brushColor = RGB(0, 0, 0);
 	fillColor = RGB(255, 255, 255);
 	penStyle = PS_SOLID;
-	rect.SetRect(30, 150, 680, 410);
+	rect.SetRect(30, 150, 1025, 460);
+	dragIndex = -1;
+	
 }
 
 void CPaintDlg::DoDataExchange(CDataExchange* pDX)
@@ -57,9 +59,8 @@ BEGIN_MESSAGE_MAP(CPaintDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK6, &CPaintDlg::OnBnClickedCheck6)
 	ON_BN_CLICKED(IDC_CHECK7, &CPaintDlg::OnBnClickedCheck7)
 	ON_WM_LBUTTONDBLCLK()
-	ON_WM_RBUTTONUP()
-	ON_WM_RBUTTONDOWN()
 	ON_WM_RBUTTONDBLCLK()
+	ON_BN_CLICKED(IDC_BUTTON7, &CPaintDlg::OnBnClickedButton7)
 END_MESSAGE_MAP()
 
 
@@ -145,6 +146,7 @@ void CPaintDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 	start = point;
+	startDrag = point;
 	isPressed = true;
 	switch (futureFigureKind)
 	{
@@ -164,6 +166,20 @@ void CPaintDlg::OnLButtonDown(UINT nFlags, CPoint point)
 		figs.Add(new FDStar(start, start));
 		break;
 	}
+
+	if (isDragged)
+	{
+		endDrag = startDrag = point;
+		dragIndex = -1;
+		for (int i = 0; i < figs.GetSize() - 1; i++)
+		{
+			if (figs[i]->isInside(point) == true)
+			{
+				dragIndex = i;
+			}
+		}
+	}
+
 	CDialogEx::OnLButtonDown(nFlags, point);
 }
 
@@ -173,10 +189,28 @@ void CPaintDlg::OnLButtonUp(UINT nFlags, CPoint point)
 
 	if (isPressed)
 	{
-		end = point;
-		isPressed = false;
-		figs[figs.GetSize() - 1]->Redefine(start, end);
-		InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
+		if (isDragged)
+		{
+			isDragged = false;
+			isPressed = false;
+			endDrag = point;
+			if (dragIndex != -1)
+			{
+				int deltaX, deltaY;
+				deltaX = endDrag.x - startDrag.x;
+				deltaY = endDrag.y - startDrag.y;
+				figs[dragIndex]->Shift(deltaX, deltaY);
+				InvalidateRect(rect);
+			}
+			SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
+		}
+		else
+		{
+			end = point;
+			isPressed = false;
+			figs[figs.GetSize() - 1]->Redefine(start, end);
+			InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
+		}
 	}
 	CDialogEx::OnLButtonUp(nFlags, point);
 }
@@ -186,13 +220,21 @@ void CPaintDlg::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 	if (isPressed)
 	{
-		end = point;
-		figs[figs.GetSize() - 1]->Redefine(start, end);
-		figs[figs.GetSize() - 1]->setBrushColor(brushColor);
-		figs[figs.GetSize() - 1]->setFillColor(fillColor);
-		figs[figs.GetSize() - 1]->setPenStyle(penStyle);
-		figs[figs.GetSize() - 1]->setPenSize(penSize);
-		InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
+		if (isDragged)
+		{
+			endDrag = point;
+			InvalidateRect(rect);
+		}
+		else
+		{
+			end = point;
+			figs[figs.GetSize() - 1]->Redefine(start, end);
+			figs[figs.GetSize() - 1]->setBrushColor(brushColor);
+			figs[figs.GetSize() - 1]->setFillColor(fillColor);
+			figs[figs.GetSize() - 1]->setPenStyle(penStyle);
+			figs[figs.GetSize() - 1]->setPenSize(penSize);
+			InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
+		}
 	}
 	CDialogEx::OnMouseMove(nFlags, point);
 }
@@ -400,25 +442,6 @@ void CPaintDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 }
 
 
-void CPaintDlg::OnRButtonUp(UINT nFlags, CPoint point)
-{
-	if (isDragged)
-	{
-		isDragged = false;
-	}
-
-	CDialogEx::OnRButtonUp(nFlags, point);
-}
-
-
-void CPaintDlg::OnRButtonDown(UINT nFlags, CPoint point)
-{
-	isDragged = true;
-
-	CDialogEx::OnRButtonDown(nFlags, point);
-}
-
-
 
 void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
 {
@@ -443,4 +466,11 @@ void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
 	}
 
 	CDialogEx::OnRButtonDblClk(nFlags, point);
+}
+
+
+void CPaintDlg::OnBnClickedButton7()
+{
+	isDragged = true;
+	SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_SIZEALL));
 }
