@@ -46,3 +46,12 @@ void Figure::Shift(int dx, int dy)
 	P1 = P1 + CPoint(dx, dy);
 	P2 = P2 + CPoint(dx, dy);
 }
+
+void Figure::onMove(CPoint start, CPoint end, CDC *dc)
+{
+	int deltaX, deltaY;
+	deltaX = end.x - start.x;
+	deltaY = end.y - start.y;
+	dc->Rectangle(P1.x + deltaX, P1.y + deltaY, P2.x + deltaX, P2.y + deltaY);
+}
+

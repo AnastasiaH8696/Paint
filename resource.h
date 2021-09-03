@@ -12,6 +12,7 @@
 #define IDC_RADIO3                      1005
 #define IDC_RADIO5                      1006
 #define IDC_BUTTON3                     1007
+#define IDC_BUTTON7                     1008
 #define IDC_BUTTON4                     1009
 #define IDC_BUTTON5                     1010
 #define BOARD                           1014
