@@ -115,6 +115,13 @@ void CPaintDlg::OnPaint()
 	else
 	{
 		CPaintDC dc(this); // device context for painting
+
+		dc.Rectangle(30, 150, 1025, 460); // white rectangle for paint
+		CBrush border(RGB(255, 255, 255));
+		CBrush* oldBorder = dc.SelectObject(&border);
+		dc.SelectObject(&oldBorder);
+
+
 		for (int i = 0; i < figs.GetSize(); i++)
 		{
 			//Handle CPen and CBrush outside
@@ -169,7 +176,6 @@ void CPaintDlg::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (isDragged)
 	{
-		endDrag = startDrag = point;
 		dragIndex = -1;
 		for (int i = 0; i < figs.GetSize() - 1; i++)
 		{
@@ -189,28 +195,16 @@ void CPaintDlg::OnLButtonUp(UINT nFlags, CPoint point)
 
 	if (isPressed)
 	{
-		if (isDragged)
-		{
-			isDragged = false;
-			isPressed = false;
-			endDrag = point;
-			if (dragIndex != -1)
-			{
-				int deltaX, deltaY;
-				deltaX = endDrag.x - startDrag.x;
-				deltaY = endDrag.y - startDrag.y;
-				figs[dragIndex]->Shift(deltaX, deltaY);
-				InvalidateRect(rect);
-			}
-			SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
-		}
+		end = point;
+		isPressed = false;
+		if(!isDragged)
+			figs[figs.GetSize() - 1]->Redefine(start, end);
 		else
 		{
-			end = point;
-			isPressed = false;
-			figs[figs.GetSize() - 1]->Redefine(start, end);
-			InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
+			isDragged = false;
+			dragIndex = -1;
 		}
+		InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
 	}
 	CDialogEx::OnLButtonUp(nFlags, point);
 }
@@ -220,14 +214,15 @@ void CPaintDlg::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 	if (isPressed)
 	{
+		end = point;
 		if (isDragged)
 		{
-			endDrag = point;
+			CPoint c = figs[dragIndex]->getP1();
+			figs[dragIndex]->onMove(point, c);
 			InvalidateRect(rect);
 		}
 		else
 		{
-			end = point;
 			figs[figs.GetSize() - 1]->Redefine(start, end);
 			figs[figs.GetSize() - 1]->setBrushColor(brushColor);
 			figs[figs.GetSize() - 1]->setFillColor(fillColor);
@@ -472,5 +467,4 @@ void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
 void CPaintDlg::OnBnClickedButton7()
 {
 	isDragged = true;
-	SetClassLong(m_hWnd, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_SIZEALL));
 }

@@ -6,6 +6,7 @@ public:
 	FEllipse() {}
 	FEllipse(CPoint p1, CPoint p2);
 	void Draw(CDC* dc) const;
+	bool isInside(const CPoint& P) const;
 };
 
 

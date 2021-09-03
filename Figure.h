@@ -19,6 +19,8 @@ public:
 	COLORREF getFillColor() const { return fillColor; }
 	int getPenStyle() const { return penStyle; }
 	int getPenSize() const { return penSize; }
+	void setP1(double x, double y) { P1.x = x; P1.y = y; }
+	void setP2(double x, double y) { P2.x = x; P2.y = y; }
 	void setBrushColor(COLORREF bc) { brushColor = bc; }
 	void setFillColor(COLORREF fc) { fillColor = fc; }
 	void setPenStyle(int pS) { penStyle = pS; }
@@ -26,5 +28,5 @@ public:
 	virtual void Redefine(CPoint p1, CPoint p2) { P1 = p1; P2 = p2; }
 	virtual bool isInside(const CPoint& P) const;
 	virtual void Shift(int dx, int dy);
-	virtual void onMove(CPoint start, CPoint end, CDC* dc);
+	virtual void onMove(CPoint start, CPoint end);
 };
