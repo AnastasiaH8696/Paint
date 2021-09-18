@@ -14,9 +14,6 @@
 
 
 // CPaintDlg dialog
-
-
-
 CPaintDlg::CPaintDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_PAINT_DIALOG, pParent)
 {
@@ -41,26 +38,26 @@ BEGIN_MESSAGE_MAP(CPaintDlg, CDialogEx)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
-	ON_BN_CLICKED(IDC_RADIO1, &CPaintDlg::OnBnClickedRadio1)
-	ON_BN_CLICKED(IDC_RADIO2, &CPaintDlg::OnBnClickedRadio2)
-	ON_BN_CLICKED(IDC_RADIO3, &CPaintDlg::OnBnClickedRadio3)
-	ON_BN_CLICKED(IDC_RADIO4, &CPaintDlg::OnBnClickedRadio4)
-	ON_BN_CLICKED(IDC_RADIO5, &CPaintDlg::OnBnClickedRadio5)
-	ON_BN_CLICKED(IDC_BUTTON1, &CPaintDlg::OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_BUTTON2, &CPaintDlg::OnBnClickedButton2)
-	ON_BN_CLICKED(IDC_BUTTON3, &CPaintDlg::OnBnClickedButton3)
-	ON_BN_CLICKED(IDC_BUTTON4, &CPaintDlg::OnBnClickedButton4)
-	ON_BN_CLICKED(IDC_BUTTON5, &CPaintDlg::OnBnClickedButton5)
-	ON_BN_CLICKED(IDC_CHECK1, &CPaintDlg::OnBnClickedCheck1)
-	ON_BN_CLICKED(IDC_CHECK2, &CPaintDlg::OnBnClickedCheck2)
-	ON_BN_CLICKED(IDC_CHECK3, &CPaintDlg::OnBnClickedCheck3)
-	ON_BN_CLICKED(IDC_CHECK4, &CPaintDlg::OnBnClickedCheck4)
-	ON_BN_CLICKED(IDC_CHECK5, &CPaintDlg::OnBnClickedCheck5)
-	ON_BN_CLICKED(IDC_CHECK6, &CPaintDlg::OnBnClickedCheck6)
-	ON_BN_CLICKED(IDC_CHECK7, &CPaintDlg::OnBnClickedCheck7)
 	ON_WM_LBUTTONDBLCLK()
 	ON_WM_RBUTTONDBLCLK()
-	ON_BN_CLICKED(IDC_BUTTON7, &CPaintDlg::OnBnClickedButton7)
+	ON_BN_CLICKED(RECTANGLE, &CPaintDlg::OnBnClickedRectangle)
+	ON_BN_CLICKED(ELLIPSE, &CPaintDlg::OnBnClickedEllipse)
+	ON_BN_CLICKED(TRIANGLE, &CPaintDlg::OnBnClickedTriangle)
+	ON_BN_CLICKED(LINE, &CPaintDlg::OnBnClickedLine)
+	ON_BN_CLICKED(MAGENDAVID, &CPaintDlg::OnBnClickedMagendavid)
+	ON_BN_CLICKED(SOLID, &CPaintDlg::OnBnClickedSolid)
+	ON_BN_CLICKED(DASH, &CPaintDlg::OnBnClickedDash)
+	ON_BN_CLICKED(DOTS, &CPaintDlg::OnBnClickedDots)
+	ON_BN_CLICKED(DASHDOT, &CPaintDlg::OnBnClickedDashdot)
+	ON_BN_CLICKED(SMALL, &CPaintDlg::OnBnClickedSmall)
+	ON_BN_CLICKED(MEDIUM, &CPaintDlg::OnBnClickedMedium)
+	ON_BN_CLICKED(BIG, &CPaintDlg::OnBnClickedBig)
+	ON_BN_CLICKED(SAVE, &CPaintDlg::OnBnClickedSave)
+	ON_BN_CLICKED(LOAD, &CPaintDlg::OnBnClickedLoad)
+	ON_BN_CLICKED(CLEAN, &CPaintDlg::OnBnClickedClean)
+	ON_BN_CLICKED(BRUSHCOLOR, &CPaintDlg::OnBnClickedBrushcolor)
+	ON_BN_CLICKED(FILLCOLOR, &CPaintDlg::OnBnClickedFillcolor)
+	ON_BN_CLICKED(DRAG, &CPaintDlg::OnBnClickedDrag)
 END_MESSAGE_MAP()
 
 
@@ -75,17 +72,17 @@ BOOL CPaintDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
-	CheckRadioButton(IDC_RADIO1, IDC_RADIO5, IDC_RADIO1);
-	m_solidCheckBox = (CButton*)GetDlgItem(IDC_CHECK1);
-	m_dashCheckBox = (CButton*)GetDlgItem(IDC_CHECK2);
-	m_dotsCheckBox = (CButton*)GetDlgItem(IDC_CHECK3);
-	m_dashDotsCheckBox = (CButton*)GetDlgItem(IDC_CHECK4);
-	m_smallCheckBox = (CButton*)GetDlgItem(IDC_CHECK5);
-	m_mediumCheckBox = (CButton*)GetDlgItem(IDC_CHECK6);
-	m_bigCheckBox = (CButton*)GetDlgItem(IDC_CHECK7);
-	m_solidCheckBox->SetCheck(BST_CHECKED);
-	m_smallCheckBox->SetCheck(BST_CHECKED);
+	// Initialization
+	CheckRadioButton(RECTANGLE, ELLIPSE, RECTANGLE);
+	m_solidCheckBox = (CButton*)GetDlgItem(SOLID);
+	m_dashCheckBox = (CButton*)GetDlgItem(DASH);
+	m_dotsCheckBox = (CButton*)GetDlgItem(DOTS);
+	m_dashDotsCheckBox = (CButton*)GetDlgItem(DASHDOT);
+	m_smallCheckBox = (CButton*)GetDlgItem(SMALL);
+	m_mediumCheckBox = (CButton*)GetDlgItem(MEDIUM);
+	m_bigCheckBox = (CButton*)GetDlgItem(BIG);
+	m_solidCheckBox->SetCheck(SOLID);
+	m_smallCheckBox->SetCheck(SMALL);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -234,20 +231,125 @@ void CPaintDlg::OnMouseMove(UINT nFlags, CPoint point)
 	CDialogEx::OnMouseMove(nFlags, point);
 }
 
-void CPaintDlg::OnBnClickedRadio1() { futureFigureKind = 1; }
 
-void CPaintDlg::OnBnClickedRadio2() { futureFigureKind = 2; }
+// ***** Shape frame START *****
 
-void CPaintDlg::OnBnClickedRadio3() { futureFigureKind = 3; }
+//When clicking on Rectangle radio button
+void CPaintDlg::OnBnClickedRectangle(){ futureFigureKind = 1;}
+void CPaintDlg::OnBnClickedEllipse() { futureFigureKind = 2; }
+void CPaintDlg::OnBnClickedTriangle() { futureFigureKind = 3; }
+void CPaintDlg::OnBnClickedLine() { futureFigureKind = 4; }
+void CPaintDlg::OnBnClickedMagendavid() { futureFigureKind = 5; }
 
-void CPaintDlg::OnBnClickedRadio4() { futureFigureKind = 4; }
+// ***** Shape frame END *****
 
-void CPaintDlg::OnBnClickedRadio5() { futureFigureKind = 5; }
+// ***** Brush type frame START *****
 
-void CPaintDlg::OnBnClickedButton1()
+void CPaintDlg::OnBnClickedSolid()
 {
-	// TODO: Add your control notification handler code here
-	
+	int ChkBox = m_solidCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_SOLID;
+		m_solidCheckBox->SetCheck(BST_CHECKED);
+		m_dashCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+void CPaintDlg::OnBnClickedDash()
+{
+	int ChkBox = m_dashCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_DASH;
+		m_dashCheckBox->SetCheck(BST_CHECKED);
+		m_solidCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+void CPaintDlg::OnBnClickedDots()
+{
+	int ChkBox = m_dotsCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_DOT;
+		m_dashCheckBox->SetCheck(BST_UNCHECKED);
+		m_solidCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_CHECKED);
+	}
+}
+
+void CPaintDlg::OnBnClickedDashdot()
+{
+	int ChkBox = m_dashDotsCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penStyle = PS_DASHDOT;
+		m_dashCheckBox->SetCheck(BST_UNCHECKED);
+		m_solidCheckBox->SetCheck(BST_UNCHECKED);
+		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
+		m_dashDotsCheckBox->SetCheck(BST_CHECKED);
+	}
+}
+
+// ***** Brush type frame END *****
+
+// ***** Brush size frame START *****
+
+void CPaintDlg::OnBnClickedSmall()
+{
+	int ChkBox = m_smallCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penSize = 1;
+		m_bigCheckBox->SetCheck(BST_UNCHECKED);
+		m_mediumCheckBox->SetCheck(BST_UNCHECKED);
+		m_smallCheckBox->SetCheck(BST_CHECKED);
+	}
+}
+
+void CPaintDlg::OnBnClickedMedium()
+{
+	int ChkBox = m_mediumCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penSize = 3;
+		m_bigCheckBox->SetCheck(BST_UNCHECKED);
+		m_mediumCheckBox->SetCheck(BST_CHECKED);
+		m_smallCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+void CPaintDlg::OnBnClickedBig()
+{
+	int ChkBox = m_bigCheckBox->GetCheck();
+
+	if (ChkBox == BST_CHECKED)
+	{
+		penSize = 5;
+		m_bigCheckBox->SetCheck(BST_CHECKED);
+		m_mediumCheckBox->SetCheck(BST_UNCHECKED);
+		m_smallCheckBox->SetCheck(BST_UNCHECKED);
+	}
+}
+
+// ***** Brush size frame END *****
+
+// ***** Menu frame START *****
+
+void CPaintDlg::OnBnClickedSave()
+{
 	// FALSE to SAVE
 	CFileDialog dlg(FALSE, _T(".figs"), NULL, 0, _T("Figures (*.figs)|*.figs|All Files (*.*)|*.*||"));
 	CString filename;
@@ -262,10 +364,8 @@ void CPaintDlg::OnBnClickedButton1()
 	}
 }
 
-void CPaintDlg::OnBnClickedButton2()
+void CPaintDlg::OnBnClickedLoad()
 {
-	// TODO: Add your control notification handler code here
-	
 	// TRUE to LOAD
 	CFileDialog dlg(TRUE, _T(".figs"), NULL, 0, _T("Figures (*.figs)|*.figs|All Files (*.*)|*.*||"));
 	CString filename;
@@ -281,8 +381,7 @@ void CPaintDlg::OnBnClickedButton2()
 	}
 }
 
-
-void CPaintDlg::OnBnClickedButton3()
+void CPaintDlg::OnBnClickedClean()
 {
 	while (figs.GetSize() > 0)
 	{
@@ -292,8 +391,11 @@ void CPaintDlg::OnBnClickedButton3()
 	InvalidateRect(rect);
 }
 
+// ***** Menu frame END *****
 
-void CPaintDlg::OnBnClickedButton4()
+// ***** Color control START *****
+
+void CPaintDlg::OnBnClickedBrushcolor()
 {
 	CColorDialog dlg;
 	if (dlg.DoModal() == IDOK)
@@ -302,8 +404,7 @@ void CPaintDlg::OnBnClickedButton4()
 	}
 }
 
-
-void CPaintDlg::OnBnClickedButton5()
+void CPaintDlg::OnBnClickedFillcolor()
 {
 	CColorDialog dlg;
 	if (dlg.DoModal() == IDOK)
@@ -312,113 +413,20 @@ void CPaintDlg::OnBnClickedButton5()
 	}
 }
 
+// ***** Color control END *****
 
+// ***** Options control START *****
 
-void CPaintDlg::OnBnClickedCheck1()
+void CPaintDlg::OnBnClickedDrag()
 {
-	int ChkBox = m_solidCheckBox->GetCheck();
-
-	if (ChkBox == BST_CHECKED)
-	{
-		penStyle = PS_SOLID;
-		m_solidCheckBox->SetCheck(BST_CHECKED);
-		m_dashCheckBox->SetCheck(BST_UNCHECKED);
-		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
-		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
-	}
+	isDragged = true;
 }
 
-
-void CPaintDlg::OnBnClickedCheck2()
-{
-	int ChkBox = m_dashCheckBox->GetCheck();
-
-	if (ChkBox == BST_CHECKED)
-	{
-		penStyle = PS_DASH;
-		m_dashCheckBox->SetCheck(BST_CHECKED);
-		m_solidCheckBox->SetCheck(BST_UNCHECKED);
-		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
-		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
-	}
-}
-
-
-void CPaintDlg::OnBnClickedCheck3()
-{
-	int ChkBox = m_dotsCheckBox->GetCheck();
-
-	if (ChkBox == BST_CHECKED)
-	{
-		penStyle = PS_DOT;
-		m_dashCheckBox->SetCheck(BST_UNCHECKED);
-		m_solidCheckBox->SetCheck(BST_UNCHECKED);
-		m_dashDotsCheckBox->SetCheck(BST_UNCHECKED);
-		m_dotsCheckBox->SetCheck(BST_CHECKED);
-	}
-}
-
-
-void CPaintDlg::OnBnClickedCheck4()
-{
-	int ChkBox = m_dashDotsCheckBox->GetCheck();
-
-	if (ChkBox == BST_CHECKED)
-	{
-		penStyle = PS_DASHDOT;
-		m_dashCheckBox->SetCheck(BST_UNCHECKED);
-		m_solidCheckBox->SetCheck(BST_UNCHECKED);
-		m_dotsCheckBox->SetCheck(BST_UNCHECKED);
-		m_dashDotsCheckBox->SetCheck(BST_CHECKED);
-	}
-}
-
-
-void CPaintDlg::OnBnClickedCheck5()
-{
-	int ChkBox = m_smallCheckBox->GetCheck();
-
-	if (ChkBox == BST_CHECKED)
-	{
-		penSize = 1;
-		m_bigCheckBox->SetCheck(BST_UNCHECKED);
-		m_mediumCheckBox->SetCheck(BST_UNCHECKED);
-		m_smallCheckBox->SetCheck(BST_CHECKED);
-	}
-}
-
-
-void CPaintDlg::OnBnClickedCheck6()
-{
-	int ChkBox = m_mediumCheckBox->GetCheck();
-
-	if (ChkBox == BST_CHECKED)
-	{
-		penSize = 3;
-		m_bigCheckBox->SetCheck(BST_UNCHECKED);
-		m_mediumCheckBox->SetCheck(BST_CHECKED);
-		m_smallCheckBox->SetCheck(BST_UNCHECKED);
-	}
-}
-
-
-void CPaintDlg::OnBnClickedCheck7()
-{
-	int ChkBox = m_bigCheckBox->GetCheck();
-
-	if (ChkBox == BST_CHECKED)
-	{
-		penSize = 5;
-		m_bigCheckBox->SetCheck(BST_CHECKED);
-		m_mediumCheckBox->SetCheck(BST_UNCHECKED);
-		m_smallCheckBox->SetCheck(BST_UNCHECKED);
-	}
-}
-
+//Delete shape
 void CPaintDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	int indexToDel = -1;
-	for(int i = 0; i< figs.GetSize() -1; i++)
+	for (int i = 0; i < figs.GetSize() - 1; i++)
 	{
 		if (figs[i]->isInside(point) == true)
 		{
@@ -436,13 +444,12 @@ void CPaintDlg::OnLButtonDblClk(UINT nFlags, CPoint point)
 	CDialogEx::OnLButtonDblClk(nFlags, point);
 }
 
-
-
+//Fill shape
 void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
 {
 	CPaintDC dc(this); // device context for painting
 	int indexToFill = -1;
-	for (int i = 0; i< figs.GetSize(); i++)
+	for (int i = 0; i < figs.GetSize(); i++)
 	{
 		if (figs.GetAt(i)->isInside(point) == true)
 		{
@@ -452,7 +459,7 @@ void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
 
 	if (indexToFill != -1)
 	{
-		
+
 		CBrush brush(fillColor);
 		CBrush* oldBrush;
 		oldBrush = dc.SelectObject(&brush);
@@ -463,8 +470,6 @@ void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
 	CDialogEx::OnRButtonDblClk(nFlags, point);
 }
 
+// ***** Options control END *****
 
-void CPaintDlg::OnBnClickedButton7()
-{
-	isDragged = true;
-}
+

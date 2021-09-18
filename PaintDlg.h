@@ -22,7 +22,6 @@ public:
 	enum { IDD = IDD_PAINT_DIALOG };
 #endif
 
-	enum MODE{PAINT, DRAG};
 	CPoint start, end;
 	bool isPressed = false;
 	bool isDragged = false;
@@ -49,30 +48,29 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnBnClickedRadio1();
-	afx_msg void OnBnClickedRadio2();
-	afx_msg void OnBnClickedRadio3();
-	afx_msg void OnBnClickedRadio4();
-	afx_msg void OnBnClickedRadio5();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
-	afx_msg void OnBnClickedButton3();
-	afx_msg void OnBnClickedButton4();
-	afx_msg void OnBnClickedButton5();
-	afx_msg void OnBnClickedCheck1();
-	afx_msg void OnBnClickedCheck2();
-	afx_msg void OnBnClickedCheck3();
-	afx_msg void OnBnClickedCheck4();
-	afx_msg void OnBnClickedCheck5();
-	afx_msg void OnBnClickedCheck6();
-	afx_msg void OnBnClickedCheck7();
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDblClk(UINT nFlags, CPoint point);
-	afx_msg void OnBnClickedButton7();
+	afx_msg void OnBnClickedRectangle();
+	afx_msg void OnBnClickedEllipse();
+	afx_msg void OnBnClickedTriangle();
+	afx_msg void OnBnClickedLine();
+	afx_msg void OnBnClickedMagendavid();
+	afx_msg void OnBnClickedSolid();
+	afx_msg void OnBnClickedDash();
+	afx_msg void OnBnClickedDots();
+	afx_msg void OnBnClickedDashdot();
+	afx_msg void OnBnClickedSmall();
+	afx_msg void OnBnClickedMedium();
+	afx_msg void OnBnClickedBig();
+	afx_msg void OnBnClickedSave();
+	afx_msg void OnBnClickedLoad();
+	afx_msg void OnBnClickedClean();
+	afx_msg void OnBnClickedBrushcolor();
+	afx_msg void OnBnClickedFillcolor();
+	afx_msg void OnBnClickedDrag();
 };
