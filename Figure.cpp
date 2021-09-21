@@ -20,6 +20,22 @@ Figure::Figure(CPoint p1, CPoint p2) :
 	fillColor = RGB(255, 255, 255);
 }
 
+void Figure::MyDraw(CDC& dc)
+{
+	CPen pen;
+	CPen* oldPen;
+	pen.CreatePen(penStyle, penSize, brushColor);
+	oldPen = dc.SelectObject(&pen);
+	CBrush brush(fillColor);
+	CBrush* oldBrush;
+	oldBrush = dc.SelectObject(&brush);
+
+	Draw(&dc);
+
+	dc.SelectObject(oldPen);
+	dc.SelectObject(oldBrush);
+}
+
 void Figure::Serialize(CArchive& ar)
 {
 	CObject::Serialize(ar);

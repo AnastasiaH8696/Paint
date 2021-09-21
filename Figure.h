@@ -13,6 +13,7 @@ public:
 	Figure(CPoint p1, CPoint p2);
 	void Serialize(CArchive& ar);
 	virtual void Draw(CDC* dc) const { dc->Rectangle(P1.x, P1.y, P2.x, P2.y); };
+	void MyDraw(CDC& dc);
 	CPoint getP1() const { return P1; }	
 	CPoint getP2() const { return P2; }
 	COLORREF getBrushColor() const { return brushColor; }

@@ -25,13 +25,14 @@ public:
 	CPoint start, end;
 	bool isPressed = false;
 	bool isDragged = false;
+	bool colorMode = false;
+	bool deleteMode = false;
 	int dragIndex;
 	CPoint startDrag, endDrag;
 	CTypedPtrArray< CObArray, Figure*> figs;
 	int futureFigureKind = 1; 
 	CRect rect;
-	COLORREF brushColor;
-	COLORREF fillColor;
+	CMFCColorButton colorOfTheShape, colorOfTheBorder;
 	int penStyle, penSize;
 	CButton* m_solidCheckBox, *m_dashCheckBox, *m_dotsCheckBox, *m_dashDotsCheckBox, *m_smallCheckBox, *m_mediumCheckBox, *m_bigCheckBox;
 
@@ -53,8 +54,7 @@ public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonDblClk(UINT nFlags, CPoint point);
+	//afx_msg void OnRButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnBnClickedRectangle();
 	afx_msg void OnBnClickedEllipse();
 	afx_msg void OnBnClickedTriangle();
@@ -70,7 +70,10 @@ public:
 	afx_msg void OnBnClickedSave();
 	afx_msg void OnBnClickedLoad();
 	afx_msg void OnBnClickedClean();
-	afx_msg void OnBnClickedBrushcolor();
-	afx_msg void OnBnClickedFillcolor();
 	afx_msg void OnBnClickedDrag();
+	afx_msg void OnBnClickedChangecolor();
+	void ColoringShape(CPoint point);
+	void deleteShape(CPoint point);
+	afx_msg void OnBnClickedDeletefig();
+	afx_msg void OnBnClickedUndo();
 };
