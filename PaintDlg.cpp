@@ -38,7 +38,6 @@ BEGIN_MESSAGE_MAP(CPaintDlg, CDialogEx)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
-	//ON_WM_RBUTTONDBLCLK()
 	ON_BN_CLICKED(RECTANGLE, &CPaintDlg::OnBnClickedRectangle)
 	ON_BN_CLICKED(ELLIPSE, &CPaintDlg::OnBnClickedEllipse)
 	ON_BN_CLICKED(TRIANGLE, &CPaintDlg::OnBnClickedTriangle)
@@ -199,6 +198,8 @@ void CPaintDlg::OnLButtonUp(UINT nFlags, CPoint point)
 		{
 			isDragged = false;
 			dragIndex = -1;
+			CButton* drag = (CButton*)GetDlgItem(DRAG);
+			drag->EnableWindow(true);
 		}
 		InvalidateRect(rect); //simulates the WM_PAINT message to redraw window
 	}
@@ -397,69 +398,20 @@ void CPaintDlg::OnBnClickedClean()
 void CPaintDlg::OnBnClickedDrag()
 {
 	isDragged = true;
+	CButton* drag = (CButton*)GetDlgItem(DRAG);
+	drag->EnableWindow(false);
 }
 
-
-//Fill shape
-//void CPaintDlg::OnRButtonDblClk(UINT nFlags, CPoint point)
-//{
-//	CPaintDC dc(this); // device context for painting
-//	int indexToFill = -1;
-//	for (int i = 0; i < figs.GetSize(); i++)
-//	{
-//		if (figs.GetAt(i)->isInside(point) == true)
-//		{
-//			indexToFill = i;
-//		}
-//	}
-//
-//	if (indexToFill != -1)
-//	{
-//
-//		CBrush brush(fillColor);
-//		CBrush* oldBrush;
-//		oldBrush = dc.SelectObject(&brush);
-//		figs.GetAt(indexToFill)->setFillColor(fillColor);
-//		InvalidateRect(rect);
-//	}
-//
-//	CDialogEx::OnRButtonDblClk(nFlags, point);
-//}
-
-// ***** Options control END *****
-
-void CPaintDlg::OnBnClickedChangecolor()
+void CPaintDlg::OnBnClickedUndo()
 {
-	colorMode = true;
-	CButton* colorModeButton = (CButton*)GetDlgItem(CHANGECOLOR);
-	colorModeButton->EnableWindow(false);
-}
-
-void CPaintDlg::ColoringShape(CPoint point)
-{
-	CPaintDC dc(this); // device context for painting
-	int length = figs.GetSize() - 1;
-	colorMode = false;
-
-	for (int r = length; r >= 0; r--)
+	int length = figs.GetSize();
+	if (length > 0)
 	{
-		if (figs[r]->isInside(point))
-		{
-			//CPen pen;
-			//CPen* oldPen;
-			//pen.CreatePen(figs[r]->getPenStyle(), figs[r]->getPenSize(), colorOfTheBorder.GetColor());
-			//oldPen = dc.SelectObject(&pen);
-			//CBrush brush(colorOfTheShape.GetColor());
-			//CBrush* oldBrush;
-			//oldBrush = dc.SelectObject(&brush);
-			figs[r]->setFillColor(colorOfTheShape.GetColor());
-			figs[r]->setBrushColor(colorOfTheBorder.GetColor());
-			Invalidate();
-			break;
-		}
+		figs.RemoveAt(length - 1);
 	}
-}
 
+	Invalidate();
+}
 
 void CPaintDlg::OnBnClickedDeletefig()
 {
@@ -487,15 +439,38 @@ void CPaintDlg::deleteShape(CPoint point)
 		InvalidateRect(rect);
 	}
 }
+// ***** Options control END *****
 
-
-void CPaintDlg::OnBnClickedUndo()
+// ***** Design control START *****
+void CPaintDlg::OnBnClickedChangecolor()
 {
-	int length = figs.GetSize();
-	if (length > 0)
-	{
-		figs.RemoveAt(length - 1);
-	}
-
-	Invalidate();
+	colorMode = true;
+	CButton* colorModeButton = (CButton*)GetDlgItem(CHANGECOLOR);
+	colorModeButton->EnableWindow(false);
 }
+
+void CPaintDlg::ColoringShape(CPoint point)
+{
+	colorMode = false;
+
+	int indexToChange = -1;
+	for (int i = 0; i < figs.GetSize() - 1; i++)
+	{
+		if (figs[i]->isInside(point) == true)
+		{
+			indexToChange = i;
+		}
+	}
+	if (indexToChange != -1)
+	{
+		figs[indexToChange]->setFillColor(colorOfTheShape.GetColor());
+		figs[indexToChange]->setBrushColor(colorOfTheBorder.GetColor());
+		InvalidateRect(rect);
+	}
+}
+
+
+
+
+
+
