@@ -468,7 +468,7 @@ void CPaintDlg::ColoringShape(CPoint point)
 		InvalidateRect(rect);
 	}
 }
-
+// ***** Design control END *****
 
 
 

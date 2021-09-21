@@ -43,19 +43,46 @@ void Figure::Serialize(CArchive& ar)
 	{
 		ar << P1;
 		ar << P2;
+		ar << fillColor;
+		ar << brushColor;
+		ar << penSize;
+		ar << penStyle;
 	}
 	else // Loading, not storing
 	{
 		ar >> P1;
 		ar >> P2;
+		ar >> fillColor;
+		ar >> brushColor;
+		ar >> penSize;
+		ar >> penStyle;
 	}
 }
 
 
 bool Figure::isInside(const CPoint& P) const
 {
-	return (P1.x <= P.x && P.x <= P2.x || P1.x >= P.x && P.x >= P2.x) &&
-		(P1.y <= P.y && P.y <= P2.y || P1.y >= P.y && P.y >= P2.y);
+	/*return (P1.x <= P.x && P.x <= P2.x || P1.x >= P.x && P.x >= P2.x) &&
+		(P1.y <= P.y && P.y <= P2.y || P1.y >= P.y && P.y >= P2.y);*/
+
+	int xx0 = 0, yy0 = 0, xx2 = 0, yy2 = 0;
+
+	xx0 = P1.x > P2.x ? P2.x : P1.x;
+	xx2 = P1.x < P2.x ? P2.x : P1.x;
+
+	yy0 = P1.y > P2.y ? P2.y : P1.y;
+	yy2 = P1.y < P2.y ? P2.y : P1.y;
+
+	if (xx0 <= P.x && P.x <= xx2)
+	{
+		if (yy0 <= P.y && P.y <= yy2)
+		{
+			return true;
+		}
+
+	}
+
+	return false;
 }
 void Figure::Shift(int dx, int dy)
 {
