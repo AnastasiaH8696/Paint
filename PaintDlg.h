@@ -23,12 +23,12 @@ public:
 #endif
 
 	CPoint start, end;
+	CPoint startDrag, endDrag;
 	bool isPressed = false;
 	bool isDragged = false;
 	bool colorMode = false;
 	bool deleteMode = false;
 	int dragIndex;
-	CPoint startDrag, endDrag;
 	CTypedPtrArray< CObArray, Figure*> figs;
 	int futureFigureKind = 1; 
 	CRect rect;
@@ -54,7 +54,6 @@ public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	//afx_msg void OnRButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnBnClickedRectangle();
 	afx_msg void OnBnClickedEllipse();
 	afx_msg void OnBnClickedTriangle();

@@ -84,11 +84,11 @@ bool Figure::isInside(const CPoint& P) const
 
 	return false;
 }
-void Figure::Shift(int dx, int dy)
-{
-	P1 = P1 + CPoint(dx, dy);
-	P2 = P2 + CPoint(dx, dy);
-}
+//void Figure::Shift(int dx, int dy)
+//{
+//	P1 = P1 + CPoint(dx, dy);
+//	P2 = P2 + CPoint(dx, dy);
+//}
 
 void Figure::onMove(CPoint start, CPoint end)
 {

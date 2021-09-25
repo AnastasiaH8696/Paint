@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Figure" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAIAABAigAyBAAAQIAgCCAEAAACBABGQGFAAA=</HashCode>
+      <FileName>Figure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FEllipse" Collapsed="true">
+    <Position X="9.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAQAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>FEllipse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FDStar" Collapsed="true">
+    <Position X="5.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>FDStar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FLine" Collapsed="true">
+    <Position X="2" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FLine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FPolygon" Collapsed="true">
+    <Position X="5.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FPolygon.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FRectangle" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>FRectangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FTriangle" Collapsed="true">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAggAIAAAAgAIQAAAAAAAAAAAAAAAAIAAAAAEAAA=</HashCode>
+      <FileName>FTriangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
